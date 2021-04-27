@@ -1,28 +1,64 @@
 import React from "react";
+import { Switch, Route, withRouter } from "react-router-dom";
 
-import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import RestoreIcon from "@material-ui/icons/Restore";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+
+import LearnMorse from "components/LearnMorse";
+import MorseTree from "components/MorseTree";
+import MorseCode from "components/MorseCode";
 
 import useStyles from "./style";
 
-function App() {
+function App({ history }) {
   const classes = useStyles();
+  const [value, setValue] = React.useState(0);
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
-        <Toolbar>
-          <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-            <AddIcon />
-          </Fab>
-          <div className={classes.grow} />
-        </Toolbar>
-      </AppBar>
-    </React.Fragment>
+      <Switch>
+        <Route exact path="/" render={(props) => <MorseCode {...props} />} />
+        <Route
+          exact
+          path="/learn"
+          render={(props) => <LearnMorse {...props} />}
+        />
+        <Route
+          exact
+          path="/tree"
+          render={(props) => <MorseTree {...props} />}
+        />
+      </Switch>
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        showLabels
+        className={classes.root}
+      >
+        <BottomNavigationAction
+          label="Learn"
+          icon={<RestoreIcon />}
+          onClick={() => history.push("/learn")}
+        />
+        <BottomNavigationAction
+          label="Code"
+          icon={<FavoriteIcon />}
+          onClick={() => history.push("/")}
+        />
+        <BottomNavigationAction
+          label="Tree"
+          icon={<LocationOnIcon />}
+          onClick={() => history.push("/tree")}
+        />
+      </BottomNavigation>
+    </>
   );
 }
 
-export default App;
+export default withRouter(App);
