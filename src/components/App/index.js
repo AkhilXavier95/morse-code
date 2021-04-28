@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,9 +13,26 @@ import MorseCode from "components/MorseCode";
 
 import useStyles from "./style";
 
+const getBottomNavValue = (pathname) => {
+  if (pathname === "/learn") {
+    return 0;
+  } else if (pathname === "/tree") {
+    return 2;
+  }
+  return 1;
+};
+
 function App({ history }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState();
+  useEffect(() => {
+    const {
+      location: { pathname },
+    } = history;
+    setValue(getBottomNavValue(pathname));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <CssBaseline />
