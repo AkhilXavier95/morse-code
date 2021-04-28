@@ -106,8 +106,14 @@ const MorseCode = () => {
           clear
         </Button>
       </div>
-      <div className={classes.navigationButtonContainer}>
+      <div
+        className={classes.navigationButtonContainer}
+        style={
+          learArray.indexOf(item) === 0 ? { justifyContent: "flex-end" } : {}
+        }
+      >
         <IconButton
+          style={learArray.indexOf(item) === 0 ? { display: "none" } : {}}
           aria-label="prev"
           className={classes.nvaButton}
           onClick={handlePrev}
@@ -116,6 +122,11 @@ const MorseCode = () => {
         </IconButton>
         <IconButton
           aria-label="next"
+          style={
+            learArray.indexOf(item) === learArray.length - 1
+              ? { display: "none" }
+              : {}
+          }
           className={classes.nvaButton}
           onClick={handleNext}
         >

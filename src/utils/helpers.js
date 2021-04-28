@@ -73,6 +73,7 @@ export const learArray = [
   "x",
   "y",
   "z",
+  "0",
   "1",
   "2",
   "3",
@@ -82,5 +83,4 @@ export const learArray = [
   "7",
   "8",
   "9",
-  "0",
 ];
