@@ -12,15 +12,17 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
 import { useStyles } from "./styles";
 import { learArray, morseJson } from "utils/helpers";
+import Completed from "./Completed";
 
 const MorseCode = () => {
   const classes = useStyles();
 
   const [item, setItem] = useState("a");
   const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+  const [completedItems, setCompletedItems] = useState([]);
 
   const handleButtonClick = (symbol) => {
-    console.log({ symbol });
     if (symbol === 0) {
       setValue(value + "-");
     } else {
@@ -37,75 +39,93 @@ const MorseCode = () => {
     const index = learArray.indexOf(item);
     setItem(learArray[index - 1]);
     setValue("");
+    setError(false);
   };
 
   const handleNext = () => {
     const index = learArray.indexOf(item);
     setItem(learArray[index + 1]);
     setValue("");
+    setError(false);
   };
 
   const handleSubmit = () => {
     if (morseJson[item] && morseJson[item] === value) {
+      const cCompletedItems = [...completedItems];
+      cCompletedItems.push(item);
+      setCompletedItems(cCompletedItems);
       handleNext();
+      setError(false);
+    } else {
+      setError(true);
+      setValue("");
     }
   };
 
   return (
     <div className={classes.container}>
-      <Paper className={classes.paper} elevation={3}>
-        <Typography className={classes.alphabets}>
-          {item.toUpperCase()}
-        </Typography>
-        <div className={classes.inputContainer}>
-          <TextField
-            error={false}
-            id="outlined-error"
-            variant="outlined"
-            value={value}
-            inputProps={{
-              style: {
-                height: 0,
-              },
-            }}
-          />
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
+      {completedItems.indexOf(item) > -1 ? (
+        <Completed />
+      ) : (
+        <>
+          <Paper className={classes.paper} elevation={3}>
+            <Typography className={classes.alphabets}>
+              {item.toUpperCase()}
+            </Typography>
+            <div className={classes.inputContainer}>
+              <TextField
+                error={error}
+                id="outlined-error"
+                variant="outlined"
+                value={value}
+                inputProps={{
+                  style: {
+                    height: 0,
+                  },
+                  onKeyDown: (e) => e.preventDefault(),
+                }}
+              />
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                OK
+              </Button>
+            </div>
+          </Paper>
+          <div className={classes.buttonContainer}>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              onClick={() => handleButtonClick(0)}
+            >
+              <RemoveIcon />
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="primary"
+              onClick={() => handleButtonClick(1)}
+            >
+              <FiberManualRecordIcon style={{ fontSize: 10 }} />
+            </Button>
+          </div>
+          <div
+            style={{ display: "flex", justifyContent: "center", marginTop: 15 }}
           >
-            OK
-          </Button>
-        </div>
-      </Paper>
-      <div className={classes.buttonContainer}>
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          onClick={() => handleButtonClick(0)}
-        >
-          <RemoveIcon />
-        </Button>
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          onClick={() => handleButtonClick(1)}
-        >
-          <FiberManualRecordIcon style={{ fontSize: 10 }} />
-        </Button>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 15 }}>
-        <Button
-          className={classes.buttonClear}
-          variant="contained"
-          onClick={handleClear}
-        >
-          clear
-        </Button>
-      </div>
+            <Button
+              className={classes.buttonClear}
+              variant="contained"
+              onClick={handleClear}
+            >
+              clear
+            </Button>
+          </div>
+        </>
+      )}
       <div
         className={classes.navigationButtonContainer}
         style={
