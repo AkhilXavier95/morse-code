@@ -9,10 +9,16 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import TextField from "@material-ui/core/TextField";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import { useStyles } from "./styles";
 import { learArray, morseJson } from "utils/helpers";
 import Completed from "./Completed";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const MorseCode = () => {
   const classes = useStyles();
@@ -21,6 +27,15 @@ const MorseCode = () => {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
   const [completedItems, setCompletedItems] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleButtonClick = (symbol) => {
     if (symbol === 0) {
@@ -60,6 +75,7 @@ const MorseCode = () => {
       setError(true);
       setValue("");
     }
+    setOpen(true);
   };
 
   return (
@@ -153,6 +169,19 @@ const MorseCode = () => {
           <NavigateNextIcon />
         </IconButton>
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={open}
+        autoHideDuration={1500}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={error ? "error" : "success"}>
+          {error ? "Your answer is wrong" : "Your answer is correct!"}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
