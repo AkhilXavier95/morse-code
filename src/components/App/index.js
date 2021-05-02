@@ -30,8 +30,9 @@ function App({ history }) {
       location: { pathname },
     } = history;
     setValue(getBottomNavValue(pathname));
+    console.log({ history });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [history.location.pathname]);
 
   return (
     <>

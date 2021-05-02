@@ -30,8 +30,6 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     fontSize: 50,
-    padding: 10,
-    margin: "15px 1px",
   },
   inputContainer: {
     display: "flex",
@@ -59,5 +57,18 @@ export const useStyles = makeStyles((theme) => ({
   successText: {
     margin: "0px 10px 25px 10px",
     textAlign: "center",
+  },
+  dash: {
+    margin: 5,
+    height: 15,
+    background: "#000",
+    width: 35,
+  },
+  dot: {
+    margin: 5,
+    height: 15,
+    width: 15,
+    background: "#000",
+    borderRadius: 50,
   },
 }));

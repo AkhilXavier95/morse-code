@@ -88,27 +88,47 @@ const MorseCode = () => {
             <Typography className={classes.alphabets}>
               {item.toUpperCase()}
             </Typography>
-            <div className={classes.inputContainer}>
-              <TextField
-                error={error}
-                id="outlined-error"
-                variant="outlined"
-                value={value}
-                inputProps={{
-                  style: {
-                    height: 0,
-                  },
-                  onKeyDown: (e) => e.preventDefault(),
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: 30,
                 }}
-              />
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
               >
-                OK
-              </Button>
+                {value
+                  ? value
+                      .split("")
+                      .map((el) => (
+                        <>
+                          {el === "." ? (
+                            <div className={classes.dot}></div>
+                          ) : (
+                            <div className={classes.dash}></div>
+                          )}
+                        </>
+                      ))
+                  : "Enter your answer"}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
+                }}
+              >
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  style={{ width: 60 }}
+                >
+                  OK
+                </Button>
+              </div>
             </div>
           </Paper>
           <div className={classes.buttonContainer}>
